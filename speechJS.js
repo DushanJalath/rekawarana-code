@@ -197,13 +197,14 @@ function translateText(text, sourceLang, targetLang) {
 // Function to generate a reply in English by calling the backend API
 function generateReply(text) {
     const apiUrl = 'http://127.0.0.1:8000/generate_response/';
+    console.log(text)
 
     return fetch(apiUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text: text })
+        body: JSON.stringify({ message: text })
     })
     .then(response => response.json())
     .then(data => {
