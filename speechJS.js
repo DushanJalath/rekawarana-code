@@ -194,10 +194,28 @@ function translateText(text, sourceLang, targetLang) {
     });
 }
 
-// Function to generate a dummy reply in English
+// Function to generate a reply in English by calling the backend API
 function generateReply(text) {
-    const dummyResponse = "This is a dummy response based on your input: " + text;
-    return Promise.resolve(dummyResponse);
+    const apiUrl = 'http://127.0.0.1:8000/generate_response/';
+
+    return fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: text })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.reply) {
+            return data.reply; // Assuming the response has a 'reply' field
+        }
+        return "No reply generated.";
+    })
+    .catch(error => {
+        console.error('Error generating reply:', error);
+        return "Error generating reply.";
+    });
 }
 
 // Toggle language between English and Sinhala
