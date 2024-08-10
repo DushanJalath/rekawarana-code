@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="Kavindu Wanniarachchi">
+    <meta name="revised" content="26/05/2022">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="style.css">
+    <title>Rakawarana</title>
+    <link rel="icon" href="mic.png"/>
+    <style>
+        /* Add styles to differentiate the boxes */
+        #voice-input, #english-translation, #reply-english, #reply-sinhala {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        #voice-input { background-color: #f9f9f9; }
+        #english-translation { background-color: #e0f7fa; }
+        #reply-english { background-color: #ffebee; }
+        #reply-sinhala { background-color: #d1c4e9; }
+    </style>
+</head>
+
+<body>
+
+    <div id="main-div">
+        <h2>Rakawarana</h2>
+        <div id="selection">
+            <button id="speech-to" class="selected-one">Let's talk</button>
+        </div>
+
+        <!-- speech to text -->
+        <div id="speech-to-text">
+            <div id="control">
+                <button id="startstop">
+                    <span class="material-symbols-outlined">play_arrow</span>
+                </button>
+                <button id="clear" class="disabled" disabled>
+                    <span class="material-symbols-outlined">clear_all</span>
+                </button>
+                <button id="copy" class="disabled" disabled>
+                    <span class="material-symbols-outlined">file_copy</span>
+                </button>
+                <button id="language">
+                    <span class="material-symbols-outlined">language</span> &ensp;
+                    <span id="language-change">English</span>
+                </button>
+            </div>
+
+            <!-- Separate boxes for different pieces of information -->
+            <div id="voice-input">
+                <p><strong>Voice Input:</strong></p>
+                <p><i>Voice input will appear here...</i></p>
+            </div>
+
+            <div id="english-translation">
+                <p><strong>English Translation:</strong></p>
+                <p><i>English translation will appear here...</i></p>
+            </div>
+
+            <div id="reply-english">
+                <p><strong>Reply in English:</strong></p>
+                <p><i>Reply in English will appear here...</i></p>
+            </div>
+
+            <div id="reply-sinhala">
+                <p><strong>Reply in Sinhala:</strong></p>
+                <p><i>Reply in Sinhala will appear here...</i></p>
+            </div>
+        </div>
+
+        <!-- command -->
+        <div id="command-area">
+            <div id="control-cmd">
+                <button id="startstop-cmd">
+                    <span class="material-symbols-outlined">play_arrow</span>
+                </button>
+                <button id="clear-cmd">
+                    <span class="material-symbols-outlined">clear_all</span>
+                </button>
+                <button id="add-cmd">
+                    <span class="material-symbols-outlined">add</span>
+                </button>
+                <button id="edit-cmd">
+                    <span class="material-symbols-outlined">edit</span>
+                </button>
+            </div>
+
+            <!-- add command -->
+            <div class="add-command command-chat">
+                <input placeholder="Add command" id="add-command"></input>
+            </div>
+
+            <div class="add-action command-chat">
+                <input placeholder="Add website (Ex: https://www.google.com)" id="add-action"></input>
+            </div> 
+            
+            <button id="add-save" class="check-btn">
+                <span class="material-symbols-outlined">check</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- loading screen -->
+    <div id="loading">
+        <div id="loading-area">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <p>Your browser is unsupported for Speech Recognition. Please try another one.</p>
+    </div>
+
+    <script src="speechJS.js"></script>
+
+</body>
+
+</html>
