@@ -12,6 +12,20 @@
     <link rel="stylesheet" href="style.css">
     <title>Rakawarana</title>
     <link rel="icon" href="mic.png"/>
+    <style>
+        /* Add styles to differentiate the boxes */
+        #voice-input, #english-translation, #reply-english, #reply-sinhala {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        #voice-input { background-color: #f9f9f9; }
+        #english-translation { background-color: #e0f7fa; }
+        #reply-english { background-color: #ffebee; }
+        #reply-sinhala { background-color: #d1c4e9; }
+    </style>
 </head>
 
 <body>
@@ -40,13 +54,25 @@
                 </button>
             </div>
 
-            <div id="text-area">
-                <p><i>how can i help you today?...</i></p>
+            <!-- Separate boxes for different pieces of information -->
+            <div id="voice-input">
+                <p><strong>Voice Input:</strong></p>
+                <p><i>Voice input will appear here...</i></p>
             </div>
 
-            <!-- New div for displaying the translated text -->
-            <div id="translated-text">
-                <p><i>Translated text will appear here...</i></p>
+            <div id="english-translation">
+                <p><strong>English Translation:</strong></p>
+                <p><i>English translation will appear here...</i></p>
+            </div>
+
+            <div id="reply-english">
+                <p><strong>Reply in English:</strong></p>
+                <p><i>Reply in English will appear here...</i></p>
+            </div>
+
+            <div id="reply-sinhala">
+                <p><strong>Reply in Sinhala:</strong></p>
+                <p><i>Reply in Sinhala will appear here...</i></p>
             </div>
         </div>
 
@@ -81,8 +107,6 @@
             </button>
         </div>
     </div>
-
-
 
     <!-- loading screen -->
     <div id="loading">

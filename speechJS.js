@@ -1,5 +1,8 @@
-const view = document.querySelector("#text-area p");
-const translatedView = document.querySelector("#translated-text p");
+// Querying DOM elements
+const voiceInputView = document.querySelector("#voice-input p:last-of-type");
+const englishTranslationView = document.querySelector("#english-translation p:last-of-type");
+const replyEnglishView = document.querySelector("#reply-english p:last-of-type");
+const replySinhalaView = document.querySelector("#reply-sinhala p:last-of-type");
 
 const startPause = document.querySelector("#startstop");
 const startPauseSpan = document.querySelector("#startstop span");
@@ -43,9 +46,12 @@ let addCommndActive = false;
 
 let commandMap = new Map();
 
+let currentLanguage = 'en'; // Default language is English
+
+// Speech recognition setup
 const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
 recognition.interimResults = true;
-recognition.lang = 'en-US';
+recognition.lang = currentLanguage;
 
 recognition.onresult = function (event) {
     const text = Array.from(event.results)
@@ -57,18 +63,39 @@ recognition.onresult = function (event) {
         giveCommand[giveCommand.length - 1].innerHTML = "<i>" + text + "</i>";
         commandText = text;
     } else {
-        view.innerHTML = savedText + " " + text;
-    }
+        // Update the voice input box
+        voiceInputView.innerHTML = text;
 
-    // If the language is Sinhala, translate to English
-    if (recognition.lang === 'si-LK') {
-        translateText(text, 'si', 'en');
+        // Translate text to English if the current language is Sinhala
+        if (currentLanguage === 'si') {
+            translateText(text, 'si', 'en').then(translatedText => {
+                englishTranslationView.innerHTML = translatedText;
+                // Generate a reply in English
+                generateReply(translatedText).then(replyText => {
+                    replyEnglishView.innerHTML = replyText;
+                    // Translate the reply to Sinhala
+                    translateText(replyText, 'en', 'si').then(sinhalaReplyText => {
+                        replySinhalaView.innerHTML = sinhalaReplyText;
+                    });
+                });
+            });
+        } else {
+            // Directly display English text and reply
+            englishTranslationView.innerHTML = text;
+            generateReply(text).then(replyText => {
+                replyEnglishView.innerHTML = replyText;
+                // Translate the reply to Sinhala
+                translateText(replyText, 'en', 'si').then(sinhalaReplyText => {
+                    replySinhalaView.innerHTML = sinhalaReplyText;
+                });
+            });
+        }
     }
 };
 
 recognition.onend = function () {
     if (runOrNot) {
-        savedText = view.textContent;
+        savedText = voiceInputView.textContent;
         recognition.start();
     }
 
@@ -94,6 +121,7 @@ recognition.onerror = function (event) {
     }
 };
 
+// Start/Pause button functionality
 startPause.onclick = function () {
     if (!runOrNot) {
         recognition.start();
@@ -114,58 +142,29 @@ startPause.onclick = function () {
     }
 };
 
-clear.onclick = function () {
-    savedText = "";
-    view.innerHTML = "<i>Say Something...</i>";
-    translatedView.innerHTML = "<i>Translated text will appear here...</i>";
-};
-
-copy.onclick = function () {
-    navigator.clipboard.writeText(savedText);
-    animation("Copied to clipboard!");
-};
-
-language.onclick = function () {
-    const lang = recognition.lang;
-
-    if (lang === "en-US") {
-        recognition.lang = "si-LK";
-        languageChange.textContent = "සිංහල";
-    } else if (lang === "si-LK") {
-        recognition.lang = "en-US";
-        languageChange.textContent = "English";
+startPauseCMD.onclick = function () {
+    if (!runOrNot) {
+        recognition.start();
+        runOrNot = true;
+        startPauseCMDSpan.textContent = "close";
+        buttonDisable();
+        language.disabled = true;
+        language.className = "disabled";
+        animation("Listening started...");
+    } else {
+        recognition.stop();
+        runOrNot = false;
+        startPauseCMDSpan.textContent = "play_arrow";
+        buttonEnable();
+        language.disabled = false;
+        language.className = "";
+        animation("Listening stopped...");
     }
 };
 
-// Function to display a text animation
-function animation(text) {
-    const span = document.createElement("span");
-    span.textContent = text;
-    document.querySelector("#main-div").appendChild(span);
-    setTimeout(() => {
-        span.remove();
-    }, 3000);
-}
-
-// Function to disable buttons
-function buttonDisable() {
-    clear.disabled = true;
-    copy.disabled = true;
-    clear.className = "disabled";
-    copy.className = "disabled";
-}
-
-// Function to enable buttons
-function buttonEnable() {
-    clear.disabled = false;
-    copy.disabled = false;
-    clear.className = "";
-    copy.className = "";
-}
-
-// New function to translate text using Google Translate API
+// Function to translate text
 function translateText(text, sourceLang, targetLang) {
-    const apiKey = 'AIzaSyCiuhXf9kUFtWvhF-1KBGKDVZBVvC6KGvs'; // Replace with your actual API key
+    const apiKey = 'AIzaSyCiuhXf9kUFtWvhF-1KBGKDVZBVvC6KGvs'; 
     const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
     
     const data = {
@@ -175,7 +174,7 @@ function translateText(text, sourceLang, targetLang) {
         format: 'text'
     };
 
-    fetch(url, {
+    return fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -185,12 +184,35 @@ function translateText(text, sourceLang, targetLang) {
     .then(response => response.json())
     .then(data => {
         if (data && data.data && data.data.translations && data.data.translations.length > 0) {
-            const translatedText = data.data.translations[0].translatedText;
-            // Set the translated text in the new view
-            translatedView.innerHTML = translatedText;
+            return data.data.translations[0].translatedText;
         }
+        return text;
     })
     .catch(error => {
         console.error('Error translating text:', error);
+        return text;
     });
 }
+
+// Function to generate a dummy reply in English
+function generateReply(text) {
+    const dummyResponse = "This is a dummy response based on your input: " + text;
+    return Promise.resolve(dummyResponse);
+}
+
+// Toggle language between English and Sinhala
+language.onclick = function () {
+    if (currentLanguage === 'en') {
+        currentLanguage = 'si';
+        languageChange.textContent = 'සිංහල'; // Sinhala
+        recognition.lang = 'si-LK';
+    } else {
+        currentLanguage = 'en';
+        languageChange.textContent = 'English'; // English
+        recognition.lang = 'en-US';
+    }
+    if (runOrNot) {
+        recognition.stop();
+        recognition.start();
+    }
+};
