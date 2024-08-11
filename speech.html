@@ -25,29 +25,45 @@
         #english-translation { background-color: #e0f7fa; }
         #reply-english { background-color: #ffebee; }
         #reply-sinhala { background-color: #d1c4e9; }
+        
+        /* Style the mic icon button */
+        #startstop {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        
+        #startstop img {
+            max-height: 100px; /* Double the previous size */
+            margin-left: -200px; /* Adjust this value to control left alignment */
+        }
+
+        /* Style for listening status */
+        #listening-status {
+            display: none; /* Hidden by default */
+            font-size: 1.2em;
+            color: #00796b;
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
 <body>
 
     <div id="main-div">
-        <h2>Rakawarana</h2>
-        <div id="selection">
-            <button id="speech-to" class="selected-one">Let's talk</button>
-        </div>
+        <h2>
+            <img src="C:/Users/User/Downloads/rekawarana-code/resources/logo.png" alt="Rakawarana Logo" style="max-height: 250px; display: block; margin: 0 auto;">
+        </h2>
 
         <!-- speech to text -->
         <div id="speech-to-text">
             <div id="control">
+                <!-- Button with mic icon -->
                 <button id="startstop">
-                    <span class="material-symbols-outlined">play_arrow</span>
+                    <img src="C:/Users/User/Downloads/rekawarana-code/resources/mic.png" alt="Mic">
                 </button>
-                <button id="clear" class="disabled" disabled>
-                    <span class="material-symbols-outlined">clear_all</span>
-                </button>
-                <button id="copy" class="disabled" disabled>
-                    <span class="material-symbols-outlined">file_copy</span>
-                </button>
+
                 <button id="language">
                     <span class="material-symbols-outlined">language</span> &ensp;
                     <span id="language-change">English</span>
@@ -74,6 +90,9 @@
                 <p><strong>Reply in Sinhala:</strong></p>
                 <p><i>Reply in Sinhala will appear here...</i></p>
             </div>
+
+            <!-- Listening status -->
+            <p id="listening-status">Listening...</p>
         </div>
 
         <!-- command -->

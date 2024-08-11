@@ -35,6 +35,8 @@ const addCmdSave = document.querySelector("#add-save");
 const addCommandInputID = document.querySelector("#add-command");
 const addActionInputID = document.querySelector("#add-action");
 
+const listeningStatus = document.querySelector("#listening-status");
+
 let giveCommand;
 let runOrNot = false; // false = stopped
 let savedText = "";
@@ -76,6 +78,7 @@ recognition.onresult = function (event) {
                     // Translate the reply to Sinhala
                     translateText(replyText, 'en', 'si').then(sinhalaReplyText => {
                         replySinhalaView.innerHTML = sinhalaReplyText;
+                        listeningStatus.style.display = "none"; // Hide "Listening..." after text is generated
                     });
                 });
             });
@@ -87,6 +90,7 @@ recognition.onresult = function (event) {
                 // Translate the reply to Sinhala
                 translateText(replyText, 'en', 'si').then(sinhalaReplyText => {
                     replySinhalaView.innerHTML = sinhalaReplyText;
+                    listeningStatus.style.display = "none"; // Hide "Listening..." after text is generated
                 });
             });
         }
@@ -119,6 +123,8 @@ recognition.onerror = function (event) {
     if (commandArea.style.display === "flex") {
         giveCommand[giveCommand.length - 1].innerHTML = "<i> Waiting for start... </i>";
     }
+
+    listeningStatus.style.display = "none"; // Hide "Listening..." on error
 };
 
 // Start/Pause button functionality
@@ -130,6 +136,7 @@ startPause.onclick = function () {
         buttonDisable();
         language.disabled = true;
         language.className = "disabled";
+        listeningStatus.style.display = "block"; // Show "Listening..."
         animation("Listening started...");
     } else {
         recognition.stop();
@@ -138,6 +145,7 @@ startPause.onclick = function () {
         buttonEnable();
         language.disabled = false;
         language.className = "";
+        listeningStatus.style.display = "none"; // Hide "Listening..."
         animation("Listening stopped...");
     }
 };
@@ -150,6 +158,7 @@ startPauseCMD.onclick = function () {
         buttonDisable();
         language.disabled = true;
         language.className = "disabled";
+        listeningStatus.style.display = "block"; // Show "Listening..."
         animation("Listening started...");
     } else {
         recognition.stop();
@@ -158,6 +167,7 @@ startPauseCMD.onclick = function () {
         buttonEnable();
         language.disabled = false;
         language.className = "";
+        listeningStatus.style.display = "none"; // Hide "Listening..."
         animation("Listening stopped...");
     }
 };
