@@ -12,68 +12,53 @@
     <link rel="stylesheet" href="style.css">
     <title>Rakawarana</title>
     <link rel="icon" href="mic.png"/>
-    <style>
-        /* Add styles to differentiate the boxes */
-        #voice-input, #english-translation, #reply-english, #reply-sinhala {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 10px 0;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-        }
-        #voice-input { background-color: #f9f9f9; }
-        #english-translation { background-color: #e0f7fa; }
-        #reply-english { background-color: #ffebee; }
-        #reply-sinhala { background-color: #d1c4e9; }
-    </style>
 </head>
 
 <body>
 
     <div id="main-div">
-        <h2>Rakawarana</h2>
-        <div id="selection">
-            <button id="speech-to" class="selected-one">Let's talk</button>
-        </div>
+        <h2>
+            <img src="C:/Users/User/Downloads/rekawarana-code/resources/logo.png" alt="Rakawarana Logo" style="max-height: 250px; display: block; margin: 0 auto;">
+        </h2>
 
         <!-- speech to text -->
         <div id="speech-to-text">
-            <div id="control">
-                <button id="startstop">
-                    <span class="material-symbols-outlined">play_arrow</span>
+            <div id="control" style="display: flex; justify-content: flex-end; align-items: center; gap: 20px; margin-top: 20px;">
+                <!-- Button with mic icon -->
+                <button id="startstop" style="background-color: transparent; border: none; cursor: pointer;">
+                    <img src="C:/Users/User/Downloads/rekawarana-code/resources/mic.png" alt="Mic" style="max-height: 100px; margin-left: -200px;">
                 </button>
-                <button id="clear" class="disabled" disabled>
-                    <span class="material-symbols-outlined">clear_all</span>
-                </button>
-                <button id="copy" class="disabled" disabled>
-                    <span class="material-symbols-outlined">file_copy</span>
-                </button>
-                <button id="language">
-                    <span class="material-symbols-outlined">language</span> &ensp;
+
+                <!-- Language selection button -->
+                <button id="language" style="background-color: #00796b; border: none; border-radius: 8px; color: #000000; padding: 10px 20px; font-size: 1em; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-left: auto;">
+                    <span class="material-symbols-outlined" style="font-size: 1.5em; margin-right: 10px;">language</span> &ensp;
                     <span id="language-change">English</span>
                 </button>
             </div>
 
             <!-- Separate boxes for different pieces of information -->
-            <div id="voice-input">
+            <div id="voice-input" style="border: 1px solid #ccc; border-radius: 8px; padding: 15px; margin: 10px 0; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); background-color: #f9f9f9;">
                 <p><strong>Voice Input:</strong></p>
                 <p><i>Voice input will appear here...</i></p>
             </div>
 
-            <div id="english-translation">
+            <div id="english-translation" style="border: 1px solid #ccc; border-radius: 8px; padding: 15px; margin: 10px 0; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); background-color: #e0f7fa;">
                 <p><strong>English Translation:</strong></p>
                 <p><i>English translation will appear here...</i></p>
             </div>
 
-            <div id="reply-english">
+            <div id="reply-english" style="border: 1px solid #ccc; border-radius: 8px; padding: 15px; margin: 10px 0; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); background-color: #ffebee;">
                 <p><strong>Reply in English:</strong></p>
                 <p><i>Reply in English will appear here...</i></p>
             </div>
 
-            <div id="reply-sinhala">
+            <div id="reply-sinhala" style="border: 1px solid #ccc; border-radius: 8px; padding: 15px; margin: 10px 0; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); background-color: #d1c4e9;">
                 <p><strong>Reply in Sinhala:</strong></p>
                 <p><i>Reply in Sinhala will appear here...</i></p>
             </div>
+
+            <!-- Listening status -->
+            <p id="listening-status" style="display: none; font-size: 1.2em; color: #00796b; text-align: center; margin-top: 20px;">Listening...</p>
         </div>
 
         <!-- command -->
